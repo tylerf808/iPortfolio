@@ -3,11 +3,14 @@ const { User } = require('../../models');
 
 router.post('/', (req, res) => {
     try {
-        User.create({
+        const userData = User.create({
             email: req.body.email,
             password: req.body.password,
-        })
+        });
+        res.json(userData);
     } catch (err) {
         res.status(400).json(err);
     }
 })
+
+module.exports = router;
