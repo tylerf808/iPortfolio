@@ -5,3 +5,40 @@
 #loginForm{
     border-right: solid  #ced4da;
 }
+
+body{
+    background-color: white;
+}
+
+.row.heading {
+    margin-top: 1em;
+}
+
+.col-3, .col-5, .first.col-4{
+    font-size: 2rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: black;
+    text-align: center;
+}
+
+.second.row{
+    border-style: groove;
+    border-width: 6px;
+
+}
+
+.col-4{
+    font-weight: 300;
+    line-height: 1;
+    color: slategrey;
+    text-align: center;
+}
+
+.h3, h3 {
+    font-size: 16px;
+}
+
+.h2, h2 {
+    font-size: 20px;
+}
