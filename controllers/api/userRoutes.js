@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const bcrypt = require('bcrypt');
 const { User } = require('../../models');
+const { route } = require('./portfolioRoutes');
 
 // CREATE a new user
 router.post('/create', async(req, res) => {
@@ -99,5 +100,13 @@ router.delete('/:id', async(req, res) => {
         res.status(500).json(err);
     }
 });
+
+router.get('/stocks', async(req, res) => {
+    try {
+
+    } catch (err) {
+
+    }
+})
 
 module.exports = router;
