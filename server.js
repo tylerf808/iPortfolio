@@ -8,6 +8,13 @@ const PORT = process.env.PORT || 3001;
 
 //get routes to navigate page
 
+app.get('/', (req, res) =>{res.render('homepage', {layout:'main'})
+
+})
+app.get('/watchlist', (req, res) =>{res.render('stockcarddetails', {layout:'main'})
+
+})
+
 
 app.set('view engine', 'handlebars')
 app.engine('handlebars', handlebars({ layoutsDir: __dirname + '/views/layouts', }))
