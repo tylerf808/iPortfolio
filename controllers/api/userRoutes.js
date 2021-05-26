@@ -17,48 +17,23 @@ router.post('/create', async(req, res) => {
     }
 });
 
-// Log in
-router.post('/login', async(req, res) => {
-    try {
-        const userData = await User.findOne({ where: { email: req.body.email } });
-
-        if (!userData) {
-            res.status(404).json({ message: 'Login failed. Please try again!' });
-            return;
-        }
-
-        const validPassword = await bcrypt.compare(
-            req.body.password,
-            userData.password
-        );
-
-        if (!validPassword) {
-            res.status(400).json({ message: 'Login failed. Please try again!' });
-            return;
-        }
-
-        res.status(200).json({ message: 'You are now logged in!' });
-    } catch (err) {
-        res.status(500).json(err);
-    }
-});
-
 // GET a user
 router.get('/:id', async(req, res) => {
     try {
-        const userData = await User.findByPk(req.params.id);
+        const userData = await User.findByPk(req.body.id);
         if (!userData) {
             res.status(404).json({ message: 'Not logged in.' });
             return;
         }
-        res.status(200).json(userData);
+
+        res.status(200).json();
     } catch (err) {
         res.status(500).json(err);
     }
 });
 
 // UPDATE a user
-router.put('/:id', async(req, res) => {
+router.put('/update', async(req, res) => {
     try {
         const userData = await User.findOne({
             where: { email: req.body.email, }
