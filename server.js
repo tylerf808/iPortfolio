@@ -6,9 +6,6 @@ const handlebars = require('express-handlebars');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
-app.set('view engine', 'handlebars')
-app.engine('handlebars', handlebars({ layoutsDir: __dirname + '/views/layouts', }))
-app.use(express.static('public'))
 
 
 //get routes to navigate page
