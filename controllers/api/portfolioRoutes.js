@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const sequelize = require('../../config/connection');
-const { Portfolio } = require('../../models/');
+const { Portfolio, User } = require('../../models/');
 
 
 //Create new entries into the portfolios table
@@ -15,6 +15,19 @@ router.post('/create', async(req, res) => {
     }
 });
 
+//Get an entry or entries based on account
+router.get('/getentry', async(req, res) => {
+    try {
+        const user = await User.findOne({ where: { email: req.body.email } });
+        const userKey = user.dataValues.id;
+        const portfolio = await Portfolio.findAll({ where: { user_id: userKey } });
+        res.status(200).json(portfolio);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+})
+
 //Delete an entry
 router.delete('/delete', async(req, res) => {
     try {
@@ -25,12 +38,13 @@ router.delete('/delete', async(req, res) => {
             }
         });
         if (!selectedRow) {
-            res.status(404).json({ message: 'No holdings associated with this id!' });
+            res.status(404).json({ message: 'None of that stock is owned by this account.' });
             return;
         }
         res.status(200).json(selectedRow);
     } catch (err) {
-        res.status(500).json(selectedRow);
+        console.log(err);
+        res.status(500).json(err);
     }
 })
 
