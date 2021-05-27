@@ -2,9 +2,20 @@ const express = require('express');
 const routes = require('./controllers');
 const handlebars = require('express-handlebars')
 const sequelize = require('./config/connection');
+const handlebars = require('express-handlebars');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+app.set('view engine','handlebars')
+app.engine('handlebars',handlebars({layoutsDir: __dirname +'/views/layouts',}))
+app.use(express.static('public'))
+app.get('/', (req, res) =>{res.render('homepage', {layout:'main'})
+
+})
+app.get('/watchlist', (req, res) =>{res.render('stockcarddetails', {layout:'main'})
+
+})
+
 
 //get routes to navigate page
 
