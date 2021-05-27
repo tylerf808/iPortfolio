@@ -15,7 +15,7 @@ router.post('/create', async(req, res) => {
     }
 });
 
-//
+//Delete an entry
 router.delete('/delete', async(req, res) => {
     try {
         const selectedRow = await Portfolio.destroy({

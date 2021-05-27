@@ -18,13 +18,8 @@ app.get('/watchlist', (req, res) =>{res.render('stockcarddetails', {layout:'main
 
 
 //get routes to navigate page
-
-app.get('/', (req, res) =>{res.render('homepage', {layout:'main'})
-
-})
-app.get('/watchlist', (req, res) =>{res.render('stockcarddetails', {layout:'main'})
-
-})
+app.get('/', (req, res) => { res.render('homepage', { layout: 'main' }) })
+app.get('/watchlist', (req, res) => { res.render('stockcarddetails', { layout: 'main' }) })
 
 
 app.set('view engine', 'handlebars')

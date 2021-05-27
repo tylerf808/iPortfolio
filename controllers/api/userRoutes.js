@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const bcrypt = require('bcrypt');
-const { User } = require('../../models');
+const { User, Portfolio } = require('../../models');
 
 // CREATE a new user
 router.post('/create', async(req, res) => {
@@ -18,16 +18,33 @@ router.post('/create', async(req, res) => {
 });
 
 // GET a user
-router.get('/:id', async(req, res) => {
+router.get('/getuser', async(req, res) => {
     try {
-        const userData = await User.findByPk(req.body.id);
+        const userData = await User.findOne({
+            where: { email: req.body.email, },
+            include: {
+                model: Portfolio
+            }
+        });
+
         if (!userData) {
             res.status(404).json({ message: 'Not logged in.' });
             return;
         }
 
-        res.status(200).json();
+        const validPassword = await bcrypt.compare(
+            req.body.password,
+            userData.password
+        );
+
+        if (!validPassword) {
+            res.status(400).json({ message: 'Invalid password!' });
+            return;
+        }
+
+        res.status(200).json(userData);
     } catch (err) {
+        console.log(err);
         res.status(500).json(err);
     }
 });
@@ -56,7 +73,7 @@ router.put('/update', async(req, res) => {
 
         const loggedInUser = await User.update(req.body, {
             where: {
-                id: req.params.id,
+                id: req.body.id,
             },
         });
 
@@ -99,5 +116,13 @@ router.delete('/:id', async(req, res) => {
         res.status(500).json(err);
     }
 });
+
+router.get('/stocks', async(req, res) => {
+    try {
+
+    } catch (err) {
+
+    }
+})
 
 module.exports = router;
