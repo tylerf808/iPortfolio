@@ -42,3 +42,17 @@ body{
 .h2, h2 {
     font-size: 20px;
 }
+
+.close {
+    color: #ccc;
+    float: right;
+    font-size: 30px;
+    color: black;
+}
+
+.close:hover,
+  .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
