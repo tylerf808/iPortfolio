@@ -1,0 +1,16 @@
+{{#each stock}}
+    <div class="row stockCard">
+       <div class="col-2 text-right">
+        <P>{{body.title}}</p>
+        </div>
+      <div class="col-2 text-left">
+      <p>{{price}}</p>
+      </div>
+       <div class="col-5 text-right">
+      <p>{{6-week-average}}</p>
+       </div>
+     <div class="col-3 text-left">
+      <p>{{recommendation}}</p>
+     </div>
+   </div>
+   {{/each}}
