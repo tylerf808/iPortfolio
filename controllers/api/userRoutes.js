@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const bcrypt = require('bcrypt');
-const { User } = require('../../models');
+const { User, Portfolio } = require('../../models');
 
 // CREATE a new user
 router.post('/create', async(req, res) => {
@@ -17,13 +17,18 @@ router.post('/create', async(req, res) => {
     }
 });
 
-// Log in
-router.post('/login', async(req, res) => {
+// GET a user
+router.get('/getuser', async(req, res) => {
     try {
-        const userData = await User.findOne({ where: { email: req.body.email } });
+        const userData = await User.findOne({
+            where: { email: req.body.email, },
+            include: {
+                model: Portfolio
+            }
+        });
 
         if (!userData) {
-            res.status(404).json({ message: 'Login failed. Please try again!' });
+            res.status(404).json({ message: 'Not logged in.' });
             return;
         }
 
@@ -33,32 +38,19 @@ router.post('/login', async(req, res) => {
         );
 
         if (!validPassword) {
-            res.status(400).json({ message: 'Login failed. Please try again!' });
+            res.status(400).json({ message: 'Invalid password!' });
             return;
         }
 
-        res.status(200).json({ message: 'You are now logged in!' });
-    } catch (err) {
-        res.status(500).json(err);
-    }
-});
-
-// GET a user
-router.get('/:id', async(req, res) => {
-    try {
-        const userData = await User.findByPk(req.params.id);
-        if (!userData) {
-            res.status(404).json({ message: 'Not logged in.' });
-            return;
-        }
         res.status(200).json(userData);
     } catch (err) {
+        console.log(err);
         res.status(500).json(err);
     }
 });
 
 // UPDATE a user
-router.put('/:id', async(req, res) => {
+router.put('/update', async(req, res) => {
     try {
         const userData = await User.findOne({
             where: { email: req.body.email, }
@@ -81,7 +73,7 @@ router.put('/:id', async(req, res) => {
 
         const loggedInUser = await User.update(req.body, {
             where: {
-                id: req.params.id,
+                id: req.body.id,
             },
         });
 
@@ -124,5 +116,13 @@ router.delete('/:id', async(req, res) => {
         res.status(500).json(err);
     }
 });
+
+router.get('/stocks', async(req, res) => {
+    try {
+
+    } catch (err) {
+
+    }
+})
 
 module.exports = router;

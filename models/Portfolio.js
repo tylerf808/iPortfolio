@@ -12,11 +12,15 @@ Portfolio.init({
     },
     stock: {
         type: DataTypes.STRING,
-        allowNull: true,
+        allowNull: false,
     },
     position: {
         type: DataTypes.DECIMAL,
-        allowNull: true,
+        allowNull: false,
+    },
+    shares: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
     },
     user_id: {
         type: DataTypes.INTEGER,

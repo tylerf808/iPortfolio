@@ -1,5 +1,6 @@
-const request = require('request');
+// const searchbtn = document.querySelector('#searchBtn');
 
+const request = require('request');
 const tickerArray = ["AAPL", "TSLA", "GOOG"]; //test array
 
 
@@ -23,15 +24,40 @@ const updatePrices = (paramArray) => {
 updatePrices(tickerArray);
 
 
-//Company news
+// last close price
+
+const lastClosePrice = (paramArray) => {
+    paramArray.forEach(ticker => {
+        finnhubClient.quote(ticker, (error, data, response) => {
+            console.log(data.pc)
+        });
+    })
+}
+
+lastClosePrice(tickerArray);
+
+//Company news from user search criteria 
 const currentNews = () => {
-    finnhubClient.companyNews("AAPL", "2021-05-22", "2021-05-24", (error, data, response) => {
+    finnhubClient.companyNews("TSLA", "2021-05-22", "2021-05-24", (error, data, response) => {
         if (error) {
             console.error(error);
         } else {
-            console.log(data)
+            console.log(response.body[0].headline + '\n' + response.body[0].source + '\n' + response.body[0].image + '\n' + response.body[0].summary)
         }
-    });};
+    });
+};
+
+
+// front end search critera function to search news. 
+
+// searchBtn.addEventListener('click', searchCriteria)
+// function searchCriteria() {
+//     let stockName = document.querySelector('#stockName').value;
+//     let beginDate = document.querySelector('#beginDate').value
+//     let endDate = document.querySelector('#endDate').value
+//     console.log();
+//     currentNews(stockName, beginDate, endDate)
+// }
 
 
 // const upcomingIpo = () => {request('https://finnhub.io/api/v1/calendar/ipo?from=2020-01-01&to=2020-04-30&token=' + apiKey, { json: true }, (err, res, body) => {
