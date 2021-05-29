@@ -2,7 +2,7 @@ const express = require('express');
 const routes = require('./controllers');
 const handlebars = require('express-handlebars')
 const sequelize = require('./config/connection');
-const handlebars = require('express-handlebars');
+
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -23,11 +23,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(routes);
 // Connect to the database before starting the Express.js server
-<<<<<<< HEAD
-sequelize.sync({force: true}).then(() => {
 
-=======
 sequelize.sync({ force: true }).then(() => {
->>>>>>> 29181acc20b53ea1d9985479bffa059bb873f942
     app.listen(PORT, () => console.log('Now listening'));
 })

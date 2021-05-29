@@ -43,12 +43,11 @@ body{
     font-size: 20px;
 }
 
-<<<<<<< HEAD
 .btn-primary{
     color: #fff;
     background-color: #545b62;
     border-color: #4e555b;
-=======
+}
 .close {
     color: #ccc;
     float: right;
@@ -61,5 +60,4 @@ body{
     color: #000;
     text-decoration: none;
     cursor: pointer;
->>>>>>> 29181acc20b53ea1d9985479bffa059bb873f942
 }
