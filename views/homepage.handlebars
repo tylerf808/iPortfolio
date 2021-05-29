@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col" id="loginForm">
       <form>
-        <div class="form-group">
+        <div class="form-group login-form">
           <label for="exampleInputEmail1">Email address</label>
           <input
             type="email"
@@ -22,21 +22,13 @@
             placeholder="Password"
           />
         </div>
-        <div class="btn-group-toggle" data-toggle="buttons">
-          <label class="btn btn-secondary active">
-            <input
-              type="checkbox"
-              checked
-              autocomplete="off"
-              class="login-form"
-            />
-            Login
-          </label>
-        </div>
+        <button class="btn btn-primary" type="submit">Login</button>
+        
       </form>
     </div>
+    
     <div class="col">
-      <form>
+      <form class="signup-form">
         <div class="form-group">
           <label for="formGroupExampleInput">Name</label>
           <input
@@ -64,18 +56,12 @@
             placeholder="Enter Password"
           />
         </div>
-        <div class="btn-group-toggle" data-toggle="buttons">
-          <label class="btn btn-secondary active">
-            <input
-              type="checkbox"
-              checked
-              autocomplete="off"
-              class="signup-form"
-            />
-            Sign Up
-          </label>
-        </div>
+        
+          <button class="btn btn-primary" type="submit">Sign up</button>
+    
       </form>
+      </div>
     </div>
   </div>
 </div>
+<script src="./js/login.js"></script>
