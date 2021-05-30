@@ -1,16 +1,31 @@
-{{#each stock}}
-    <div class="row stockCard">
-       <div class="col-2 text-right">
-        <P>{{body.title}}</p>
+
+<div class="row">
+  <h2 class="col text-center">Stock Ticker</h2>
+</div>
+<div class="row heading">
+    <div class="col-3 text-right"id="">
+      <h2>Stock</h2>
+    </div> 
+    <div class="col-5 text-left"id="">
+      <h2>Position</h2>
+    </div> 
+    <div class="first col-4"id="">
+      <h2>Shares</h2>
+    </div>
+</div>
+</div>
+
+{{#each users as |user|}}
+    <div class="row border stockCard">
+       <div class=" text col-3 text-right">
+        <P>{{user.stock}}</p>
         </div>
-      <div class="col-2 text-left">
-      <p>{{price}}</p>
+      <div class=" text col-5 text-left">
+      <p>{{user.position}}</p>
       </div>
-       <div class="col-5 text-right">
-      <p>{{6-week-average}}</p>
+       <div class=" text col-4 ">
+      <p>{{user.shares}}</p>
        </div>
-     <div class="col-3 text-left">
-      <p>{{recommendation}}</p>
-     </div>
-   </div>
+       <span><i class="bi bi-x"></i></span>
+      </div>
    {{/each}}
