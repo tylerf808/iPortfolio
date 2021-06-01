@@ -1,128 +1,85 @@
-const router = require('express').Router();
-const bcrypt = require('bcrypt');
-const { User, Portfolio } = require('../../models');
+const router = require("express").Router();
+const bcrypt = require("bcrypt");
+const { User, Portfolio } = require("../../models");
 
 // CREATE a new user
-router.post('/create', async(req, res) => {
-    try {
-        const newUser = req.body;
+router.post("/create", async (req, res) => {
+  try {
+    const newUser = req.body;
 
-        newUser.password = await bcrypt.hash(req.body.password, 10);
+    newUser.password = await bcrypt.hash(req.body.password, 10);
 
-        const userData = await User.create(newUser);
+    const userData = await User.create(newUser);
 
-        res.status(200).json(userData);
-    } catch (err) {
-        res.status(400).json(err);
-    }
+    req.session.save(() => {
+      req.session.user_id = userData.id;
+      req.session.logged_in = true;
+
+      res.status(200).json(userData);
+    });
+  } catch (err) {
+    res.status(400).json(err);
+  }
 });
 
 // GET a user
-router.get('/getuser', async(req, res) => {
-    try {
-        const userData = await User.findOne({
-            where: { email: req.body.email, },
-            include: {
-                model: Portfolio
-            }
-        });
-
-        if (!userData) {
-            res.status(404).json({ message: 'Not logged in.' });
-            return;
-        }
-
-        const validPassword = await bcrypt.compare(
-            req.body.password,
-            userData.password
-        );
-
-        if (!validPassword) {
-            res.status(400).json({ message: 'Invalid password!' });
-            return;
-        }
-
-        res.status(200).json(userData);
-    } catch (err) {
-        console.log(err);
-        res.status(500).json(err);
-    }
+router.get("/get", async (req, res) => {
+  try {
+    const userData = await User.findOne({
+      where: { email: req.body.email },
+      include: {
+        model: Portfolio,
+      },
+      exclude: {
+        password,
+      },
+    });
+    res.status(200).json(userData);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
 });
 
-// UPDATE a user
-router.put('/update', async(req, res) => {
-    try {
-        const userData = await User.findOne({
-            where: { email: req.body.email, }
-        });
+router.post("/login", async (req, res) => {
+  try {
+    const userData = await User.findOne({ where: { email: req.body.email } });
 
-        if (!userData) {
-            res.status(404).json({ message: 'Not logged in.' });
-            return;
-        }
-
-        const validPassword = await bcrypt.compare(
-            req.body.password,
-            userData.password
-        );
-
-        if (!validPassword) {
-            res.status(400).json({ message: 'Invalid password!' });
-            return;
-        }
-
-        const loggedInUser = await User.update(req.body, {
-            where: {
-                id: req.body.id,
-            },
-        });
-
-        res.status(200).json(loggedInUser);
-    } catch (err) {
-        res.status(500).json(err);
+    if (!userData) {
+      res
+        .status(400)
+        .json({ message: "Incorrect email or password, please try again" });
+      return;
     }
+
+    const validPassword = await userData.checkPassword(req.body.password);
+
+    if (!validPassword) {
+      res
+        .status(400)
+        .json({ message: "Incorrect email or password, please try again" });
+      return;
+    }
+
+    req.session.save(() => {
+      req.session.user_id = userData.id;
+      req.session.logged_in = true;
+
+      res.json({ user: userData, message: "You are now logged in!" });
+    });
+  } catch (err) {
+    res.status(400).json(err);
+  }
 });
 
-// DELETE a user
-router.delete('/:id', async(req, res) => {
-    try {
-        let userData = await User.findOne({ where: { email: req.body.email } });
-
-        if (!userData) {
-            res.status(404).json({ message: 'No user with this id!' });
-            return;
-        }
-
-        const validPassword = await bcrypt.compare(
-            req.body.password,
-            userData.password
-        );
-
-        if (!validPassword) {
-            res.status(400).json({ message: 'Invalid password!' });
-            return;
-        }
-
-        userData = await User.destroy({
-            where: {
-                id: userData.id,
-            },
-        });
-
-        res.status(200).json({ message: 'Success! Account deleted.' });
-
-    } catch (err) {
-        console.log(err);
-        res.status(500).json(err);
-    }
+router.post("/logout", (req, res) => {
+  if (req.session.logged_in) {
+    req.session.destroy(() => {
+      res.status(204).end();
+    });
+  } else {
+    res.status(404).end();
+  }
 });
-
-router.get('/stocks', async(req, res) => {
-    try {
-
-    } catch (err) {
-
-    }
-})
 
 module.exports = router;
