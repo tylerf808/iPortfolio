@@ -16,9 +16,9 @@ router.post('/create', async(req, res) => {
 });
 
 //Get an entry or entries based on account
-router.get('/getentry', async(req, res) => {
+router.get('/get', async(req, res) => {
     try {
-        const user = await User.findOne({ where: { email: req.body.email } });
+        const user = await User.findOne({ where: { email: req.session.email } });
         const userKey = user.dataValues.id;
         const portfolio = await Portfolio.findAll({ where: { user_id: userKey } });
         res.status(200).json(portfolio);
@@ -33,8 +33,8 @@ router.delete('/delete', async(req, res) => {
     try {
         const selectedRow = await Portfolio.destroy({
             where: {
-                user_id: req.body.user_id,
-                stock: req.body.stock
+                user_id: req.session.user_id,
+                stock: req.session.stock
             }
         });
         if (!selectedRow) {
