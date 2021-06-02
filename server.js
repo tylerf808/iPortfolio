@@ -1,37 +1,41 @@
+const path = require('path');
 const express = require('express');
+const session = require('express-session');
+const exphbs = require('express-handlebars');
 const routes = require('./controllers');
-const exphbs = require('express-handlebars')
 const helpers = require('./utils/helpers');
+
 const sequelize = require('./config/connection');
-// const portfolio = require("./seeds/portfolioData")
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-
-// //get routes to navigate page
-// app.get('/', (req, res) => { res.render('homepage', { layout: 'main' }) })
-// // app.get('/watchlist', (req, res) => { res.render('stockcarddetails', { layout: 'main' }) })
-
+// Set up Handlebars.js engine with custom helpers
 const hbs = exphbs.create({ helpers });
 
+const sess = {
+    secret: 'Super secret secret',
+    cookie: {},
+    resave: false,
+    saveUninitialized: true,
+    store: new SequelizeStore({
+        db: sequelize
+    })
+};
+
+app.use(session(sess));
+
+// Inform Express.js on which template engine to use
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static('public'));
-
-// app.set('view engine', 'handlebars')
-// app.engine('handlebars', handlebars({ layoutsDir: __dirname + '/views/layouts', }))
-// app.use(express.static('public'))
-
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(routes);
-// Connect to the database before starting the Express.js server
-sequelize.sync({ force: false }).then(() => {
+
+sequelize.sync({ force: true }).then(() => {
     app.listen(PORT, () => console.log('Now listening'));
-})
+});
