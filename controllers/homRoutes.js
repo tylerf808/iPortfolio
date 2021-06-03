@@ -1,12 +1,19 @@
 const router = require('express').Router();
-const { Portfolio, User } = require('../models');
+const { Portfolio } = require('../models');
 const withAuth = require('../utils/auth');
 
 
 
 router.get('/', async(req, res) => {
 
-    res.render('homepage');
+    try {
+        // Pass serialized data and session flag into template
+        res.render('homepage', {
+            logged_in: req.session.logged_in
+        });
+    } catch (err) {
+        res.status(500).json(err);
+    }
 
 });
 
@@ -25,7 +32,7 @@ router.get('/watchlist', withAuth, async(req, res) => {
         // Pass serialized data into Handlebars.js template
         res.render('stockcarddetails', {
             users,
-
+            logged_in: req.session.logged_in
         });
     } catch (err) {
         res.status(500).json(err);
