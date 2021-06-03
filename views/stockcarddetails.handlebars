@@ -1,7 +1,17 @@
 
 <div class="row">
-  <h2 class="col text-center">Stock Ticker</h2>
+  <h2 class="col text-center ticker">Stock Ticker</h2>
 </div>
+<div class="container">
+<div class = "row">
+<div class="input-group mb-3">
+  <input type="text" class="form-control" placeholder="Search">
+  <div class="input-group-append">
+    <button class="btn btn-success ticker-btn" type="submit">Go</button>
+  </div>
+</div>
+</div>
+
 <div class="row heading">
     <div class="col-3 text-right"id="">
       <h2>Stock</h2>
@@ -9,11 +19,11 @@
     <div class="col-5 text-left"id="">
       <h2>Position</h2>
     </div> 
-    <div class="first col-4"id="">
+    <div class="first col-4 text-left"id="">
       <h2>Shares</h2>
     </div>
 </div>
-</div>
+
 
 {{#each users as |user|}}
     <div class="row border stockCard">
@@ -23,9 +33,14 @@
       <div class=" text col-5 text-left">
       <p>{{user.position}}</p>
       </div>
-       <div class=" text col-4 ">
+       <div class=" text col-2 text-right">
       <p>{{user.shares}}</p>
        </div>
-       <span><i class="bi bi-x"></i></span>
+       <div class=" col-2">
+      <button class="bi bi-x-square-fill deleteBtn">X</button>
+      </div>
       </div>
    {{/each}}
+
+   </div>
+<script src="./js/index.js"></script>
