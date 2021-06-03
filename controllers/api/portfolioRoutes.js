@@ -18,9 +18,8 @@ router.post('/create', async(req, res) => {
 //Get an entry or entries based on account
 router.get('/get', async(req, res) => {
     try {
-        const user = await User.findOne({ where: { email: req.session.email } });
-        const userKey = user.dataValues.id;
-        const portfolio = await Portfolio.findAll({ where: { user_id: userKey } });
+        const primaryKey = req.session.user_id;
+        const portfolio = await Portfolio.findAll({ where: { user_id: primaryKey } });
         res.status(200).json(portfolio);
     } catch (err) {
         console.log(err);

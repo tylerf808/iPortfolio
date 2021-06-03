@@ -1,18 +1,27 @@
-// const searchbtn = document.querySelector('#searchBtn');
-
-const request = require('request');
-const tickerArray = ["AAPL", "TSLA", "GOOG"]; //test array
-
-
 const finnhub = require('finnhub');
-
 const api_key = finnhub.ApiClient.instance.authentications['api_key'];
 api_key.apiKey = "c2ki7haad3i96dg8bltg"
 const finnhubClient = new finnhub.DefaultApi()
 
+
+//Call the API to return the portfolio of the logged in user and push the stock tickers into an array
+const getStocks = async() => {
+
+    const response = await fetch('/api/portfolios/get', {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+    })
+    if (response.ok) {
+        console.log(response.json());
+    } else {
+        alert(response.statusText);
+    }
+
+};
+
 //Quote
 const updatePrices = (paramArray) => {
-    setInterval(function () {
+    setInterval(function() {
         paramArray.forEach(ticker => {
             finnhubClient.quote(ticker, (error, data, response) => {
                 console.log(data.c);
@@ -21,11 +30,7 @@ const updatePrices = (paramArray) => {
     }, 3000);
 }
 
-updatePrices(tickerArray);
-
-
 // last close price
-
 const lastClosePrice = (paramArray) => {
     paramArray.forEach(ticker => {
         finnhubClient.quote(ticker, (error, data, response) => {
@@ -33,8 +38,6 @@ const lastClosePrice = (paramArray) => {
         });
     })
 }
-
-lastClosePrice(tickerArray);
 
 //Company news from user search criteria 
 const currentNews = () => {
@@ -46,24 +49,3 @@ const currentNews = () => {
         }
     });
 };
-
-
-// front end search critera function to search news. 
-
-// searchBtn.addEventListener('click', searchCriteria)
-// function searchCriteria() {
-//     let stockName = document.querySelector('#stockName').value;
-//     let beginDate = document.querySelector('#beginDate').value
-//     let endDate = document.querySelector('#endDate').value
-//     console.log();
-//     currentNews(stockName, beginDate, endDate)
-// }
-
-
-// const upcomingIpo = () => {request('https://finnhub.io/api/v1/calendar/ipo?from=2020-01-01&to=2020-04-30&token=' + apiKey, { json: true }, (err, res, body) => {
-//   if (err) { return console.log(err); }
-//   console.log(res.body.ipoCalendar);
-// })};
-
-currentNews();
-// upcomingIpo();
