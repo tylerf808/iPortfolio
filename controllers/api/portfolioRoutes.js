@@ -34,7 +34,7 @@ router.delete('/delete', async(req, res) => {
         const selectedRow = await Portfolio.destroy({
             where: {
                 user_id: req.session.user_id,
-                stock: req.body.stock
+                stock: req.body.stock,
             }
         });
         if (!selectedRow) {

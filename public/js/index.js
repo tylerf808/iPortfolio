@@ -27,16 +27,12 @@ const saveButtonHandler = async (event) => {
   const delButtonHandler = async (event) => {
     event.preventDefault();
     event.stopPropagation();
-      // target.hasAttribute('data-stock-id')) {
-      const id = 2
-      // event.target.prevent
-      // getAttribute('data-stock-id');
-      const stock = "amazon"
+      
+      const stock = event.target.parentElement.parentElement.firstElementChild.innerText
      
       const response = await fetch('/api/portfolios/delete', {
         method: 'DELETE',
         body: JSON.stringify({
-          user_id:id,
           stock:stock }),
           headers: {
             'Content-Type': 'application/json',
@@ -52,14 +48,13 @@ const saveButtonHandler = async (event) => {
     }
   
   
-  // document
-  //   .querySelector('.new-project-form')
-  //   .addEventListener('submit', saveButtonHandler);
 
 
   const buttons = document.getElementsByClassName('deleteBtn');
+
   for (const button of buttons) {
     button.addEventListener('click', delButtonHandler);
+    // const stock = button[0].parentElement.parentElement.firstElementChild.innerText
   }
   
 
