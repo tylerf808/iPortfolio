@@ -1,12 +1,19 @@
 const router = require('express').Router();
 const sequelize = require('../../config/connection');
-const { Portfolio, User } = require('../../models/');
-
+const { Portfolio } = require('../../models/');
+const fetch = require("node-fetch");
 
 //Create new entries into the portfolios table
 router.post('/create', async(req, res) => {
     try {
         const newEntry = req.body;
+        newEntry.currentPrice = await fetch('https://api.polygon.io/v2/last/trade/' + req.body.stock + '?&apiKey=0Y07IGLt_i8glVpNFoyZfKjmKX2YqDgY')
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(response) {
+                return response.results.p
+            });
         const entryData = await Portfolio.create(newEntry);
         res.status(200).json(entryData);
     } catch (err) {
@@ -27,13 +34,14 @@ router.get('/get', async(req, res) => {
     }
 })
 
+
 //Delete an entry
 router.delete('/delete', async(req, res) => {
     try {
         const selectedRow = await Portfolio.destroy({
             where: {
                 user_id: req.session.user_id,
-                stock: req.session.stock
+                stock: req.body.stock
             }
         });
         if (!selectedRow) {
