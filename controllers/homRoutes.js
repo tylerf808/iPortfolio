@@ -6,9 +6,14 @@ const updatePrices = require('../utils/finnHubApi');
 router.get('/', async(req, res) => {
 
     try {
+<<<<<<< HEAD
         res.render('homepage', {
             logged_in: req.session.logged_in
         });
+=======
+
+        res.render('homepage');
+>>>>>>> 798a9b96a4a9f2e86d60f84c870f42c0641b82ae
     } catch (err) {
         res.status(500).json(err);
     }
