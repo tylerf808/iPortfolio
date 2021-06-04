@@ -7,6 +7,7 @@ const fetch = require("node-fetch");
 router.post('/create', async(req, res) => {
     try {
         const newEntry = req.body;
+        newEntry.user_id = req.session.user_id;
         newEntry.currentPrice = await fetch('https://api.polygon.io/v2/last/trade/' + req.body.stock + '?&apiKey=0Y07IGLt_i8glVpNFoyZfKjmKX2YqDgY')
             .then(function(response) {
                 return response.json();
