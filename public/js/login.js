@@ -1,8 +1,8 @@
 const loginFormHandler = async(event) => {
     event.preventDefault();
 
-    const email = document.querySelector('#email-login').value.trim();
-    const password = document.querySelector('#password-login').value.trim();
+    const email = document.getElementById('email-login').value.trim();
+    const password = document.getElementById('password-login').value.trim();
 
 
     const response = await fetch('/api/users/login', {
@@ -10,6 +10,7 @@ const loginFormHandler = async(event) => {
         body: JSON.stringify({ email, password }),
         headers: { 'Content-Type': 'application/json' },
     })
+    console.log(response)
     if (response.ok) {
         document.location.replace('/watchlist');
     } else {
