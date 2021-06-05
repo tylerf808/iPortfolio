@@ -23,7 +23,7 @@ Portfolio.init({
         allowNull: false,
     },
     currentPrice: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.DECIMAL,
     },
     user_id: {
         type: DataTypes.INTEGER,

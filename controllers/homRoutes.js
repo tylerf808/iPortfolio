@@ -27,7 +27,7 @@ router.get('/watchlist', withAuth, async(req, res) => {
 
 
         // Serialize stock data so templates can read it
-        const users = userData.map((stock) => { stock.get({ plain: true }) });
+        const users = userData.map((stock) => stock.get({ plain: true }));
 
         // Pass serialized data into stockcarddetails template
         res.render('stockcarddetails', {
