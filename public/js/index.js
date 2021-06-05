@@ -58,3 +58,37 @@ const saveButtonHandler = async (event) => {
   }
   
 
+  const addStock = async(event) => {
+    event.preventDefault();
+
+    const stockSymbol = document.getElementById('stockSymbol').value.trim();
+  const purchasePrice = document.getElementById('purchasePrice').value.trim();
+  const shares = document.getElementById('shareAmount').value.trim();
+
+    const response = await fetch('api/portfolios/create',{
+      method: 'POST',
+      body: JSON.stringify({
+        stock: stockSymbol,
+        position: purchasePrice,
+        shares: shares,
+        currentPrice: 0,
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    });
+
+    if (response.ok) {
+      document.location.replace('/watchlist');
+    } else {
+      alert('Failed to add stock to portfolio!')
+    };
+  
+  };
+
+  document
+    .getElementById('addBtn')
+    .addEventListener('click', addStock);
+
+
+

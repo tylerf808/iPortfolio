@@ -70,3 +70,12 @@ body{
     text-decoration: none;
     cursor: pointer;
 }
+
+#addStockDiv {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.addStock {
+    margin: 10px;
+}
